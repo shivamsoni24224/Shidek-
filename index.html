@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<title>SHIDEK – Career & College AI</title>
+
+<!-- PWA -->
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#FF6B00" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="SHIDEK" />
+<link rel="apple-touch-icon" href="icons/icon-192.png" />
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&family=Noto+Sans+Gujarati:wght@400;700&family=Inter:wght@400;500;600&display=swap');
+
+  :root {
+    --saffron: #FF6B00;
+    --saffron-light: #FF8C38;
+    --deep: #0D1B2A;
+    --card: #132133;
+    --card2: #1a2c42;
+    --accent: #00C9A7;
+    --accent2: #FFD166;
+    --text: #E8EDF4;
+    --muted: #8BA0B8;
+    --border: #1e3450;
+    --user-bubble: #1a3a5c;
+    --ai-bubble: #132133;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--deep);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, #0a1520 0%, #0D1B2A 100%);
+    border-bottom: 2px solid var(--saffron);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo-mark {
+    width: 46px; height: 46px;
+    background: linear-gradient(135deg, var(--saffron), var(--saffron-light));
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Baloo 2', cursive;
+    font-weight: 800;
+    font-size: 18px;
+    color: white;
+    letter-spacing: -1px;
+    box-shadow: 0 0 18px rgba(255,107,0,0.4);
+    flex-shrink: 0;
+  }
+
+  .header-text h1 {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 800;
+    font-size: 22px;
+    color: white;
+    line-height: 1;
+  }
+
+  .header-text p {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .lang-toggle {
+    margin-left: auto;
+    display: flex;
+    background: var(--card);
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  .lang-toggle button {
+    padding: 6px 14px;
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .lang-toggle button.active {
+    background: var(--saffron);
+    color: white;
+  }
+
+  /* PROFILE BANNER */
+  #profile-banner {
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .profile-chip {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .profile-chip span { color: var(--muted); }
+  .profile-chip strong { color: var(--accent2); }
+
+  #edit-profile-btn {
+    margin-left: auto;
+    background: none;
+    border: 1px solid var(--saffron);
+    color: var(--saffron);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 12px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.2s;
+  }
+
+  #edit-profile-btn:hover { background: var(--saffron); color: white; }
+
+  /* CHAT AREA */
+  #chat-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    scroll-behavior: smooth;
+  }
+
+  .msg {
+    max-width: 82%;
+    border-radius: 16px;
+    padding: 14px 16px;
+    font-size: 14px;
+    line-height: 1.6;
+    animation: fadeUp 0.3s ease;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .msg.user {
+    background: var(--user-bubble);
+    border: 1px solid #1e4a70;
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+  }
+
+  .msg.ai {
+    background: var(--ai-bubble);
+    border: 1px solid var(--border);
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+  }
+
+  .msg.ai .ai-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 8px;
+    font-size: 11px;
+    color: var(--saffron);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .msg.ai .ai-label::before {
+    content: '';
+    width: 8px; height: 8px;
+    background: var(--saffron);
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+  }
+
+  @keyframes pulse {
+    0%,100% { opacity: 1; } 50% { opacity: 0.4; }
+  }
+
+  .msg table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 13px;
+  }
+
+  .msg table th {
+    background: rgba(255,107,0,0.15);
+    color: var(--saffron-light);
+    padding: 8px 10px;
+    text-align: left;
+    border: 1px solid var(--border);
+    font-weight: 600;
+  }
+
+  .msg table td {
+    padding: 7px 10px;
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+
+  .msg table tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+
+  .msg strong { color: var(--accent2); }
+  .msg em { color: var(--accent); font-style: normal; }
+
+  /* THINKING DOTS */
+  .thinking {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 14px 16px;
+  }
+
+  .thinking span {
+    width: 8px; height: 8px;
+    background: var(--saffron);
+    border-radius: 50%;
+    animation: bounce 1.2s infinite;
+  }
+
+  .thinking span:nth-child(2) { animation-delay: 0.2s; }
+  .thinking span:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes bounce {
+    0%,80%,100% { transform: scale(0.6); opacity: 0.4; }
+    40%          { transform: scale(1);   opacity: 1;   }
+  }
+
+  /* QUICK PROMPTS */
+  #quick-prompts {
+    padding: 0 20px 10px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .qp {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 12px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .qp:hover { border-color: var(--saffron); color: var(--saffron-light); }
+
+  /* INPUT */
+  #input-area {
+    padding: 14px 20px;
+    background: var(--card);
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+  }
+
+  #user-input {
+    flex: 1;
+    background: var(--deep);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 16px;
+    color: var(--text);
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    resize: none;
+    min-height: 48px;
+    max-height: 130px;
+    outline: none;
+    transition: border-color 0.2s;
+    line-height: 1.5;
+  }
+
+  #user-input:focus { border-color: var(--saffron); }
+  #user-input::placeholder { color: var(--muted); }
+
+  #send-btn {
+    background: linear-gradient(135deg, var(--saffron), var(--saffron-light));
+    border: none;
+    border-radius: 12px;
+    width: 48px; height: 48px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 4px 14px rgba(255,107,0,0.35);
+  }
+
+  #send-btn:hover { transform: scale(1.06); box-shadow: 0 6px 20px rgba(255,107,0,0.5); }
+  #send-btn:active { transform: scale(0.95); }
+
+  #send-btn svg { fill: white; }
+
+  /* MODAL */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 200;
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+  }
+
+  .modal {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px;
+    width: 100%; max-width: 420px;
+    animation: fadeUp 0.3s ease;
+  }
+
+  .modal h2 {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 800;
+    font-size: 20px;
+    color: var(--saffron-light);
+    margin-bottom: 6px;
+  }
+
+  .modal p { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+
+  .form-group { margin-bottom: 14px; }
+
+  .form-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+
+  .form-group input, .form-group select {
+    width: 100%;
+    background: var(--deep);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    color: var(--text);
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+    appearance: none;
+  }
+
+  .form-group input:focus, .form-group select:focus { border-color: var(--saffron); }
+
+  .form-row { display: flex; gap: 10px; }
+  .form-row .form-group { flex: 1; }
+
+  .modal-save {
+    width: 100%;
+    background: linear-gradient(135deg, var(--saffron), var(--saffron-light));
+    border: none;
+    border-radius: 10px;
+    padding: 13px;
+    color: white;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    margin-top: 6px;
+    transition: opacity 0.2s;
+  }
+
+  .modal-save:hover { opacity: 0.9; }
+
+  /* WELCOME */
+  .welcome-card {
+    background: linear-gradient(135deg, var(--card) 0%, #0f2035 100%);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--saffron);
+    border-radius: 14px;
+    padding: 18px;
+    align-self: center;
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .welcome-card h3 {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 800;
+    font-size: 18px;
+    color: var(--saffron-light);
+    margin-bottom: 6px;
+  }
+
+  .welcome-card p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  .source-tag {
+    display: inline-block;
+    background: rgba(0,201,167,0.12);
+    border: 1px solid rgba(0,201,167,0.3);
+    color: var(--accent);
+    border-radius: 10px;
+    font-size: 10px;
+    padding: 2px 8px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+
+  /* PWA Install Banner */
+  #install-banner {
+    display: none;
+    position: fixed;
+    bottom: 80px;
+    left: 16px; right: 16px;
+    background: linear-gradient(135deg, #1a3a5c, #132133);
+    border: 1px solid var(--saffron);
+    border-radius: 16px;
+    padding: 14px 16px;
+    align-items: center;
+    gap: 12px;
+    z-index: 150;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    animation: fadeUp 0.4s ease;
+  }
+
+  #install-banner .install-icon {
+    font-size: 28px; flex-shrink: 0;
+  }
+
+  #install-banner .install-text { flex: 1; }
+  #install-banner .install-text strong { display: block; font-size: 14px; color: var(--text); }
+  #install-banner .install-text span { font-size: 12px; color: var(--muted); }
+
+  #install-btn {
+    background: var(--saffron);
+    border: none;
+    border-radius: 10px;
+    padding: 8px 16px;
+    color: white;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    flex-shrink: 0;
+  }
+
+  #dismiss-install {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 20px;
+    cursor: pointer;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+
+  /* Safe area for notched phones */
+  body { padding-bottom: env(safe-area-inset-bottom); }
+</style>
+</head>
+<body>
+
+<!-- PROFILE MODAL -->
+<div class="modal-overlay" id="profile-modal">
+  <div class="modal">
+    <h2>🎓 તમારી Profile</h2>
+    <p>SHIDEK ને તમારા માટે સૌથી સચોટ સલાહ આપવા, આ માહિતી જરૂરી છે.</p>
+
+    <div class="form-group">
+      <label>તમારું નામ</label>
+      <input type="text" id="f-name" placeholder="દા.ત. Shivam Patel" />
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>NEET Score</label>
+        <input type="number" id="f-neet" placeholder="દા.ત. 450" />
+      </div>
+      <div class="form-group">
+        <label>GUJCET Score</label>
+        <input type="number" id="f-gujcet" placeholder="દા.ત. 85" />
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Category</label>
+        <select id="f-cat">
+          <option value="General">General (UR)</option>
+          <option value="OBC">OBC (SEBC)</option>
+          <option value="SC">SC</option>
+          <option value="ST">ST</option>
+          <option value="EWS">EWS</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Stream</label>
+        <select id="f-stream">
+          <option value="Medical (MBBS/BDS)">Medical (MBBS/BDS)</option>
+          <option value="Engineering (B.Tech)">Engineering (B.Tech)</option>
+          <option value="Pharmacy">Pharmacy</option>
+          <option value="Nursing">Nursing</option>
+          <option value="Other">Other / Explore</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="modal-save" onclick="saveProfile()">✅ Save & Start SHIDEK</button>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="logo-mark">SHI</div>
+  <div class="header-text">
+    <h1>SHIDEK</h1>
+    <p>Career & College Admission Expert AI</p>
+  </div>
+  <div class="lang-toggle">
+    <button class="active" id="btn-gu" onclick="setLang('gu')">ગુ</button>
+    <button id="btn-en" onclick="setLang('en')">EN</button>
+  </div>
+</header>
+
+<!-- PROFILE BANNER -->
+<div id="profile-banner" style="display:none;">
+  <div class="profile-chip"><span>👤</span><strong id="b-name">—</strong></div>
+  <div class="profile-chip"><span>NEET</span><strong id="b-neet">—</strong></div>
+  <div class="profile-chip"><span>GUJCET</span><strong id="b-gujcet">—</strong></div>
+  <div class="profile-chip"><span>Cat</span><strong id="b-cat">—</strong></div>
+  <div class="profile-chip"><span>🎯</span><strong id="b-stream">—</strong></div>
+  <button id="edit-profile-btn" onclick="openModal()">✏️ Edit</button>
+</div>
+
+<!-- CHAT -->
+<div id="chat-area"></div>
+
+<!-- QUICK PROMPTS -->
+<div id="quick-prompts"></div>
+
+<!-- PWA INSTALL BANNER -->
+<div id="install-banner">
+  <div class="install-icon">📲</div>
+  <div class="install-text">
+    <strong>SHIDEK Install કરો!</strong>
+    <span>Home Screen પર App તરીકે ઉમેરો</span>
+  </div>
+  <button id="install-btn">Install</button>
+  <button id="dismiss-install">✕</button>
+</div>
+
+<!-- INPUT -->
+<div id="input-area">
+  <textarea id="user-input" rows="1" placeholder="તમારો પ્રશ્ન અહીં લખો... / Ask your question here..."></textarea>
+  <button id="send-btn" onclick="sendMessage()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
+  </button>
+</div>
+
+<script>
+let profile = {};
+let lang = 'gu';
+let chatHistory = [];
+
+const quickPromptsGu = [
+  "📋 મારા સ્કોર માટે કઈ કોલેજ સારી?",
+  "💰 Government MBBS ની ફી કેટલી?",
+  "🏫 GMERS vs Grant-in-aid?",
+  "📅 ACPC admission process 2025",
+  "🔄 MBBS ન મળે તો alternative?",
+];
+
+const quickPromptsEn = [
+  "📋 Best colleges for my score?",
+  "💰 Government MBBS fee in Gujarat?",
+  "🏫 GMERS vs Grant-in-aid colleges?",
+  "📅 ACPC admission process 2025",
+  "🔄 Alternatives if MBBS not possible?",
+];
+
+function setLang(l) {
+  lang = l;
+  document.getElementById('btn-gu').classList.toggle('active', l === 'gu');
+  document.getElementById('btn-en').classList.toggle('active', l === 'en');
+  renderQuickPrompts();
+}
+
+function renderQuickPrompts() {
+  const container = document.getElementById('quick-prompts');
+  const prompts = lang === 'gu' ? quickPromptsGu : quickPromptsEn;
+  container.innerHTML = prompts.map(p =>
+    `<button class="qp" onclick="usePrompt(this)">${p}</button>`
+  ).join('');
+}
+
+function usePrompt(btn) {
+  document.getElementById('user-input').value = btn.textContent;
+  sendMessage();
+}
+
+function openModal() {
+  document.getElementById('profile-modal').style.display = 'flex';
+}
+
+function saveProfile() {
+  const name = document.getElementById('f-name').value.trim() || 'Student';
+  const neet = document.getElementById('f-neet').value || '—';
+  const gujcet = document.getElementById('f-gujcet').value || '—';
+  const cat = document.getElementById('f-cat').value;
+  const stream = document.getElementById('f-stream').value;
+
+  profile = { name, neet, gujcet, cat, stream };
+
+  document.getElementById('b-name').textContent = name;
+  document.getElementById('b-neet').textContent = neet;
+  document.getElementById('b-gujcet').textContent = gujcet;
+  document.getElementById('b-cat').textContent = cat;
+  document.getElementById('b-stream').textContent = stream;
+
+  document.getElementById('profile-banner').style.display = 'flex';
+  document.getElementById('profile-modal').style.display = 'none';
+
+  const chat = document.getElementById('chat-area');
+  chat.innerHTML = '';
+  chatHistory = [];
+
+  const greeting = lang === 'gu'
+    ? `નમસ્તે **${name}**! 🙏 હું **SHIDEK** છું — તમારો Personal Career & Admission Expert AI.\n\nતમારી Profile સેટ થઈ ગઈ:\n- NEET Score: **${neet}**\n- GUJCET: **${gujcet}**\n- Category: **${cat}**\n- Stream: **${stream}**\n\nહવે તમારો કોઈ પણ પ્રશ્ન પૂછો — હું Real-Time ડેટા વડે સૌથી સચોટ જવાબ આપીશ! 🎯`
+    : `Hello **${name}**! 👋 I'm **SHIDEK** — your Personal Career & Admission Expert AI.\n\nYour profile is set:\n- NEET Score: **${neet}**\n- GUJCET: **${gujcet}**\n- Category: **${cat}**\n- Stream: **${stream}**\n\nAsk me anything about college admissions in Gujarat — I'll give you the most accurate, up-to-date answers! 🎯`;
+
+  addAIMessage(greeting);
+  renderQuickPrompts();
+}
+
+function addAIMessage(text) {
+  const chat = document.getElementById('chat-area');
+  const div = document.createElement('div');
+  div.className = 'msg ai';
+  div.innerHTML = `<div class="ai-label">SHIDEK</div>${formatText(text)}`;
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function addUserMessage(text) {
+  const chat = document.getElementById('chat-area');
+  const div = document.createElement('div');
+  div.className = 'msg user';
+  div.textContent = text;
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function showThinking() {
+  const chat = document.getElementById('chat-area');
+  const div = document.createElement('div');
+  div.className = 'msg ai thinking';
+  div.id = 'thinking';
+  div.innerHTML = `<div class="ai-label">SHIDEK</div><span></span><span></span><span></span>`;
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function removeThinking() {
+  const t = document.getElementById('thinking');
+  if (t) t.remove();
+}
+
+function formatText(text) {
+  return text
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    .replace(/\n/g, '<br>');
+}
+
+async function sendMessage() {
+  const input = document.getElementById('user-input');
+  const text = input.value.trim();
+  if (!text) return;
+
+  input.value = '';
+  input.style.height = 'auto';
+  addUserMessage(text);
+  showThinking();
+
+  chatHistory.push({ role: 'user', content: text });
+
+  const systemPrompt = `You are SHIDEK — "Career & College Admission Expert AI" — a highly knowledgeable AI agent built specifically to help students in Gujarat, India, especially those appearing for NEET and GUJCET, with college admissions, career guidance, and educational decisions.
+
+STUDENT PROFILE:
+- Name: ${profile.name || 'Student'}
+- NEET Score: ${profile.neet || 'Not specified'}
+- GUJCET Score: ${profile.gujcet || 'Not specified'}
+- Category: ${profile.cat || 'General'}
+- Preferred Stream: ${profile.stream || 'Medical'}
+
+YOUR CORE RESPONSIBILITIES:
+1. Based on NEET/GUJCET score and category, provide a list of best Government, GMERS, and Grant-in-aid colleges in Gujarat with approximate cut-offs.
+2. Provide accurate information about annual fees, seat count, and admission process for each college.
+3. If a student is exploring alternatives, guide them with career paths, alternative colleges (Pharmacy, Nursing, Paramedical, Engineering, etc.).
+4. Use web search to get current ACPC data, admission schedules, and cut-off trends.
+5. When showing college lists, use tables with: College Name | Type | Approximate Fee | Approx Cut-off | Location.
+6. Always be helpful, accurate, and encouraging.
+
+LANGUAGE RULE: The user has selected language = "${lang}". If "gu", reply primarily in Gujarati (with key terms in English). If "en", reply in English. Always match the user's message language if they switch.
+
+FORMATTING:
+- Use **bold** for important info
+- Use tables for college lists
+- Use clear headings
+- Be concise but complete
+- Add a 🔍 "Sources checked: ACPC, NMC, college websites" note at the end when relevant
+
+Always personalize your response using the student's NEET/GUJCET score and category when answering admission-related questions.`;
+
+  try {
+    const messages = [
+      ...chatHistory.slice(-10)
+    ];
+
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        system: systemPrompt,
+        tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+        messages
+      })
+    });
+
+    const data = await res.json();
+    const reply = data.content
+      .filter(b => b.type === 'text')
+      .map(b => b.text)
+      .join('\n');
+
+    chatHistory.push({ role: 'assistant', content: reply || '...' });
+    removeThinking();
+    addAIMessage(reply || (lang === 'gu' ? 'માફ કરો, જવાબ મળ્યો નથી.' : 'Sorry, no response received.'));
+  } catch (e) {
+    removeThinking();
+    addAIMessage(lang === 'gu'
+      ? '⚠️ કોઈ ટેકનિકલ સમસ્યા આવી. કૃપા કરીને ફરીથી પ્રયાસ કરો.'
+      : '⚠️ A technical error occurred. Please try again.');
+  }
+}
+
+// Auto-resize textarea
+document.getElementById('user-input').addEventListener('input', function () {
+  this.style.height = 'auto';
+  this.style.height = Math.min(this.scrollHeight, 130) + 'px';
+});
+
+document.getElementById('user-input').addEventListener('keydown', function (e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+});
+
+// Register Service Worker (PWA)
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js')
+      .then(() => console.log('SHIDEK SW registered ✅'))
+      .catch(e => console.log('SW error:', e));
+  });
+}
+
+// PWA Install prompt
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById('install-banner').style.display = 'flex';
+});
+
+document.getElementById('install-btn')?.addEventListener('click', async () => {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') {
+      document.getElementById('install-banner').style.display = 'none';
+    }
+    deferredPrompt = null;
+  }
+});
+
+document.getElementById('dismiss-install')?.addEventListener('click', () => {
+  document.getElementById('install-banner').style.display = 'none';
+});
+
+// Init
+renderQuickPrompts();
+
+// Show welcome card
+(function() {
+  const chat = document.getElementById('chat-area');
+  const div = document.createElement('div');
+  div.className = 'welcome-card';
+  div.innerHTML = `
+    <h3>🎓 SHIDEK માં આપનું સ્વાગત છે!</h3>
+    <p style="margin-top:8px">ઉપર તમારી Profile ભરો — NEET Score, Category અને Stream — પછી SHIDEK તમને<br>Gujarat ની <strong style="color:#FF8C38">Best Colleges</strong> ની સૌથી સચોટ, Real-Time માહિતી આપશે! 🚀</p>
+  `;
+  chat.appendChild(div);
+})();
+</script>
+</body>
+</html>
