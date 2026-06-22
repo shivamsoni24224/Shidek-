@@ -1,500 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-<title>SHIDEK – Career & College AI</title>
-
-<!-- PWA -->
-<link rel="manifest" href="manifest.json" />
-<meta name="theme-color" content="#FF6B00" />
-<meta name="mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-<meta name="apple-mobile-web-app-title" content="SHIDEK" />
-<link rel="apple-touch-icon" href="icons/icon-192.png" />
-<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
+<title>SHIDEK 2.0 – Career & College AI</title>
+<link rel="manifest" href="manifest.json"/>
+<meta name="theme-color" content="#FF6B00"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="SHIDEK"/>
+<link rel="apple-touch-icon" href="icon-192.png"/>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&family=Noto+Sans+Gujarati:wght@400;700&family=Inter:wght@400;500;600&display=swap');
+:root {
+  --saffron:#FF6B00; --saffron2:#FF8C38;
+  --deep:#0D1B2A; --card:#132133; --card2:#1a2c42;
+  --accent:#00C9A7; --gold:#FFD166;
+  --text:#E8EDF4; --muted:#8BA0B8; --border:#1e3450;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--deep);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;display:flex;flex-direction:column;max-width:480px;margin:0 auto;}
 
-  :root {
-    --saffron: #FF6B00;
-    --saffron-light: #FF8C38;
-    --deep: #0D1B2A;
-    --card: #132133;
-    --card2: #1a2c42;
-    --accent: #00C9A7;
-    --accent2: #FFD166;
-    --text: #E8EDF4;
-    --muted: #8BA0B8;
-    --border: #1e3450;
-    --user-bubble: #1a3a5c;
-    --ai-bubble: #132133;
-  }
+/* HEADER */
+header{background:linear-gradient(135deg,#0a1520,#0D1B2A);border-bottom:2px solid var(--saffron);padding:12px 16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100;}
+.logo{width:42px;height:42px;background:linear-gradient(135deg,var(--saffron),var(--saffron2));border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:'Baloo 2',cursive;font-weight:800;font-size:17px;color:white;box-shadow:0 0 16px rgba(255,107,0,0.4);flex-shrink:0;}
+.htext h1{font-family:'Baloo 2',cursive;font-weight:800;font-size:20px;color:white;line-height:1;}
+.htext p{font-size:10px;color:var(--muted);margin-top:2px;}
+.lang-toggle{margin-left:auto;display:flex;background:var(--card);border-radius:20px;border:1px solid var(--border);overflow:hidden;}
+.lang-toggle button{padding:5px 12px;background:none;border:none;color:var(--muted);font-size:11px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.2s;}
+.lang-toggle button.active{background:var(--saffron);color:white;}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+/* PROFILE BAR */
+#profile-bar{background:var(--card);border-bottom:1px solid var(--border);padding:8px 16px;display:none;align-items:center;gap:8px;flex-wrap:wrap;}
+.chip{background:var(--card2);border:1px solid var(--border);border-radius:20px;padding:3px 10px;font-size:11px;display:flex;align-items:center;gap:4px;}
+.chip span{color:var(--muted);}
+.chip strong{color:var(--gold);}
+#edit-btn{margin-left:auto;background:none;border:1px solid var(--saffron);color:var(--saffron);border-radius:20px;padding:3px 12px;font-size:11px;cursor:pointer;font-family:'Inter',sans-serif;}
 
-  body {
-    background: var(--deep);
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
+/* NAV TABS */
+#nav{background:var(--card);border-bottom:1px solid var(--border);display:flex;overflow-x:auto;scrollbar-width:none;padding:0 8px;}
+#nav::-webkit-scrollbar{display:none;}
+.nav-tab{padding:10px 14px;background:none;border:none;color:var(--muted);font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif;border-bottom:2px solid transparent;transition:all 0.2s;display:flex;align-items:center;gap:5px;}
+.nav-tab.active{color:var(--saffron);border-bottom-color:var(--saffron);}
 
-  /* HEADER */
-  header {
-    background: linear-gradient(135deg, #0a1520 0%, #0D1B2A 100%);
-    border-bottom: 2px solid var(--saffron);
-    padding: 14px 20px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
+/* PAGES */
+.page{display:none;flex:1;overflow-y:auto;padding:16px;}
+.page.active{display:flex;flex-direction:column;}
 
-  .logo-mark {
-    width: 46px; height: 46px;
-    background: linear-gradient(135deg, var(--saffron), var(--saffron-light));
-    border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Baloo 2', cursive;
-    font-weight: 800;
-    font-size: 18px;
-    color: white;
-    letter-spacing: -1px;
-    box-shadow: 0 0 18px rgba(255,107,0,0.4);
-    flex-shrink: 0;
-  }
+/* CHAT */
+#chat-area{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:14px;scroll-behavior:smooth;}
+.msg{max-width:84%;border-radius:16px;padding:12px 14px;font-size:13px;line-height:1.6;animation:fadeUp 0.3s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.msg.user{background:#1a3a5c;border:1px solid #1e4a70;align-self:flex-end;border-bottom-right-radius:4px;}
+.msg.ai{background:var(--card);border:1px solid var(--border);align-self:flex-start;border-bottom-left-radius:4px;}
+.ai-label{font-size:10px;color:var(--saffron);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;display:flex;align-items:center;gap:5px;}
+.ai-label::before{content:'';width:6px;height:6px;background:var(--saffron);border-radius:50%;animation:pulse 1.5s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.msg table{width:100%;border-collapse:collapse;margin-top:8px;font-size:12px;}
+.msg table th{background:rgba(255,107,0,0.15);color:var(--saffron2);padding:7px 8px;text-align:left;border:1px solid var(--border);font-weight:600;}
+.msg table td{padding:6px 8px;border:1px solid var(--border);}
+.msg table tr:nth-child(even) td{background:rgba(255,255,255,0.02);}
+.msg strong{color:var(--gold);}
+.msg em{color:var(--accent);font-style:normal;}
+.thinking{display:flex;align-items:center;gap:4px;padding:12px 14px;}
+.thinking span{width:7px;height:7px;background:var(--saffron);border-radius:50%;animation:bounce 1.2s infinite;}
+.thinking span:nth-child(2){animation-delay:0.2s;}
+.thinking span:nth-child(3){animation-delay:0.4s;}
+@keyframes bounce{0%,80%,100%{transform:scale(0.6);opacity:0.4}40%{transform:scale(1);opacity:1}}
 
-  .header-text h1 {
-    font-family: 'Baloo 2', cursive;
-    font-weight: 800;
-    font-size: 22px;
-    color: white;
-    line-height: 1;
-  }
+/* QUICK PROMPTS */
+#quick-wrap{padding:0 16px 10px;display:flex;gap:7px;flex-wrap:wrap;}
+.qp{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:11px;color:var(--muted);cursor:pointer;transition:all 0.2s;font-family:'Inter',sans-serif;}
+.qp:hover{border-color:var(--saffron);color:var(--saffron2);}
 
-  .header-text p {
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 2px;
-  }
+/* INPUT */
+#input-area{padding:12px 16px;background:var(--card);border-top:1px solid var(--border);display:flex;gap:8px;align-items:flex-end;}
+#user-input{flex:1;background:var(--deep);border:1px solid var(--border);border-radius:12px;padding:10px 14px;color:var(--text);font-size:13px;font-family:'Inter',sans-serif;resize:none;min-height:44px;max-height:120px;outline:none;transition:border-color 0.2s;line-height:1.5;}
+#user-input:focus{border-color:var(--saffron);}
+#user-input::placeholder{color:var(--muted);}
+#send-btn{background:linear-gradient(135deg,var(--saffron),var(--saffron2));border:none;border-radius:12px;width:44px;height:44px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 12px rgba(255,107,0,0.35);}
+#send-btn svg{fill:white;}
+#mic-btn{background:var(--card2);border:1px solid var(--border);border-radius:12px;width:44px;height:44px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s;}
+#mic-btn.listening{background:rgba(255,107,0,0.2);border-color:var(--saffron);animation:micPulse 1s infinite;}
+@keyframes micPulse{0%,100%{box-shadow:0 0 0 0 rgba(255,107,0,0.4)}50%{box-shadow:0 0 0 8px rgba(255,107,0,0)}}
+#mic-btn svg{fill:var(--muted);}
+#mic-btn.listening svg{fill:var(--saffron);}
 
-  .lang-toggle {
-    margin-left: auto;
-    display: flex;
-    background: var(--card);
-    border-radius: 20px;
-    border: 1px solid var(--border);
-    overflow: hidden;
-  }
+/* TOOL CARDS */
+.tool-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.tool-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;cursor:pointer;transition:all 0.2s;text-align:center;}
+.tool-card:hover{border-color:var(--saffron);transform:translateY(-2px);}
+.tool-card .icon{font-size:28px;margin-bottom:8px;}
+.tool-card h3{font-size:12px;font-weight:700;color:var(--text);margin-bottom:4px;}
+.tool-card p{font-size:10px;color:var(--muted);line-height:1.4;}
+.tool-card.wide{grid-column:span 2;}
 
-  .lang-toggle button {
-    padding: 6px 14px;
-    background: none;
-    border: none;
-    color: var(--muted);
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-    font-family: 'Inter', sans-serif;
-  }
+/* SECTION HEADERS */
+.sec-title{font-family:'Baloo 2',cursive;font-weight:800;font-size:16px;color:var(--saffron2);margin-bottom:12px;}
+.sec-sub{font-size:12px;color:var(--muted);margin-bottom:16px;line-height:1.5;}
 
-  .lang-toggle button.active {
-    background: var(--saffron);
-    color: white;
-  }
+/* CARDS */
+.info-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:12px;}
+.info-card h4{font-size:13px;font-weight:700;color:var(--gold);margin-bottom:6px;}
+.info-card p{font-size:12px;color:var(--muted);line-height:1.5;}
 
-  /* PROFILE BANNER */
-  #profile-banner {
-    background: var(--card);
-    border-bottom: 1px solid var(--border);
-    padding: 10px 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
+/* FORM */
+.form-group{margin-bottom:12px;}
+.form-group label{display:block;font-size:11px;font-weight:600;color:var(--muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:0.4px;}
+.form-group input,.form-group select{width:100%;background:var(--deep);border:1px solid var(--border);border-radius:10px;padding:10px 12px;color:var(--text);font-size:13px;font-family:'Inter',sans-serif;outline:none;transition:border-color 0.2s;appearance:none;}
+.form-group input:focus,.form-group select:focus{border-color:var(--saffron);}
+.form-row{display:flex;gap:10px;}
+.form-row .form-group{flex:1;}
+.btn-primary{width:100%;background:linear-gradient(135deg,var(--saffron),var(--saffron2));border:none;border-radius:10px;padding:12px;color:white;font-size:14px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;margin-top:6px;}
+.btn-secondary{width:100%;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:10px;color:var(--text);font-size:13px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer;margin-top:8px;}
 
-  .profile-chip {
-    background: var(--card2);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 4px 12px;
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
+/* RESULT CARD */
+.result-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:10px;animation:fadeUp 0.3s ease;}
+.result-card .rank-badge{background:rgba(255,107,0,0.15);border:1px solid rgba(255,107,0,0.3);color:var(--saffron2);border-radius:8px;padding:3px 10px;font-size:11px;font-weight:700;display:inline-block;margin-bottom:8px;}
+.result-card h4{font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px;}
+.result-card .meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;}
+.meta-tag{background:var(--card2);border-radius:8px;padding:3px 8px;font-size:10px;color:var(--muted);}
+.meta-tag strong{color:var(--accent);}
+.prob-bar{background:var(--card2);border-radius:4px;height:6px;margin-top:8px;overflow:hidden;}
+.prob-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--saffron),var(--accent));}
 
-  .profile-chip span { color: var(--muted); }
-  .profile-chip strong { color: var(--accent2); }
+/* COMPARE */
+.compare-table{width:100%;border-collapse:collapse;font-size:12px;}
+.compare-table th{background:rgba(255,107,0,0.12);color:var(--saffron2);padding:8px;border:1px solid var(--border);text-align:left;}
+.compare-table td{padding:7px 8px;border:1px solid var(--border);}
+.compare-table tr:nth-child(even) td{background:rgba(255,255,255,0.02);}
+.better{color:var(--accent);font-weight:700;}
 
-  #edit-profile-btn {
-    margin-left: auto;
-    background: none;
-    border: 1px solid var(--saffron);
-    color: var(--saffron);
-    border-radius: 20px;
-    padding: 4px 14px;
-    font-size: 12px;
-    cursor: pointer;
-    font-family: 'Inter', sans-serif;
-    transition: all 0.2s;
-  }
+/* CALENDAR */
+.cal-item{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;}
+.cal-date{background:var(--saffron);color:white;border-radius:10px;padding:6px 10px;text-align:center;min-width:50px;flex-shrink:0;}
+.cal-date .day{font-size:18px;font-weight:800;line-height:1;}
+.cal-date .month{font-size:9px;font-weight:600;text-transform:uppercase;}
+.cal-info h4{font-size:13px;font-weight:700;color:var(--text);}
+.cal-info p{font-size:11px;color:var(--muted);margin-top:2px;}
+.cal-badge{display:inline-block;border-radius:6px;padding:2px 7px;font-size:9px;font-weight:700;margin-top:4px;}
+.cal-badge.important{background:rgba(255,107,0,0.2);color:var(--saffron2);}
+.cal-badge.normal{background:rgba(0,201,167,0.15);color:var(--accent);}
 
-  #edit-profile-btn:hover { background: var(--saffron); color: white; }
+/* SCHOLARSHIP */
+.schol-card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:12px;padding:12px;margin-bottom:10px;}
+.schol-card h4{font-size:13px;font-weight:700;color:var(--gold);}
+.schol-card p{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.5;}
+.schol-card .amount{font-size:14px;font-weight:800;color:var(--accent);margin-top:6px;}
 
-  /* CHAT AREA */
-  #chat-area {
-    flex: 1;
-    overflow-y: auto;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    scroll-behavior: smooth;
-  }
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;}
+.modal{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:24px;width:100%;max-width:400px;max-height:85vh;overflow-y:auto;animation:fadeUp 0.3s ease;}
+.modal h2{font-family:'Baloo 2',cursive;font-weight:800;font-size:18px;color:var(--saffron2);margin-bottom:4px;}
+.modal p.sub{font-size:12px;color:var(--muted);margin-bottom:16px;}
 
-  .msg {
-    max-width: 82%;
-    border-radius: 16px;
-    padding: 14px 16px;
-    font-size: 14px;
-    line-height: 1.6;
-    animation: fadeUp 0.3s ease;
-  }
+/* WELCOME */
+.welcome{background:linear-gradient(135deg,var(--card),#0f2035);border:1px solid var(--border);border-left:3px solid var(--saffron);border-radius:14px;padding:16px;text-align:center;margin-bottom:10px;}
+.welcome h3{font-family:'Baloo 2',cursive;font-weight:800;font-size:16px;color:var(--saffron2);margin-bottom:6px;}
+.welcome p{font-size:12px;color:var(--muted);line-height:1.6;}
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(10px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  .msg.user {
-    background: var(--user-bubble);
-    border: 1px solid #1e4a70;
-    align-self: flex-end;
-    border-bottom-right-radius: 4px;
-  }
-
-  .msg.ai {
-    background: var(--ai-bubble);
-    border: 1px solid var(--border);
-    align-self: flex-start;
-    border-bottom-left-radius: 4px;
-  }
-
-  .msg.ai .ai-label {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-bottom: 8px;
-    font-size: 11px;
-    color: var(--saffron);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  .msg.ai .ai-label::before {
-    content: '';
-    width: 8px; height: 8px;
-    background: var(--saffron);
-    border-radius: 50%;
-    animation: pulse 1.5s infinite;
-  }
-
-  @keyframes pulse {
-    0%,100% { opacity: 1; } 50% { opacity: 0.4; }
-  }
-
-  .msg table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-    font-size: 13px;
-  }
-
-  .msg table th {
-    background: rgba(255,107,0,0.15);
-    color: var(--saffron-light);
-    padding: 8px 10px;
-    text-align: left;
-    border: 1px solid var(--border);
-    font-weight: 600;
-  }
-
-  .msg table td {
-    padding: 7px 10px;
-    border: 1px solid var(--border);
-    color: var(--text);
-  }
-
-  .msg table tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
-
-  .msg strong { color: var(--accent2); }
-  .msg em { color: var(--accent); font-style: normal; }
-
-  /* THINKING DOTS */
-  .thinking {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    padding: 14px 16px;
-  }
-
-  .thinking span {
-    width: 8px; height: 8px;
-    background: var(--saffron);
-    border-radius: 50%;
-    animation: bounce 1.2s infinite;
-  }
-
-  .thinking span:nth-child(2) { animation-delay: 0.2s; }
-  .thinking span:nth-child(3) { animation-delay: 0.4s; }
-
-  @keyframes bounce {
-    0%,80%,100% { transform: scale(0.6); opacity: 0.4; }
-    40%          { transform: scale(1);   opacity: 1;   }
-  }
-
-  /* QUICK PROMPTS */
-  #quick-prompts {
-    padding: 0 20px 10px;
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-
-  .qp {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 6px 14px;
-    font-size: 12px;
-    color: var(--muted);
-    cursor: pointer;
-    transition: all 0.2s;
-    font-family: 'Inter', sans-serif;
-  }
-
-  .qp:hover { border-color: var(--saffron); color: var(--saffron-light); }
-
-  /* INPUT */
-  #input-area {
-    padding: 14px 20px;
-    background: var(--card);
-    border-top: 1px solid var(--border);
-    display: flex;
-    gap: 10px;
-    align-items: flex-end;
-  }
-
-  #user-input {
-    flex: 1;
-    background: var(--deep);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 12px 16px;
-    color: var(--text);
-    font-size: 14px;
-    font-family: 'Inter', sans-serif;
-    resize: none;
-    min-height: 48px;
-    max-height: 130px;
-    outline: none;
-    transition: border-color 0.2s;
-    line-height: 1.5;
-  }
-
-  #user-input:focus { border-color: var(--saffron); }
-  #user-input::placeholder { color: var(--muted); }
-
-  #send-btn {
-    background: linear-gradient(135deg, var(--saffron), var(--saffron-light));
-    border: none;
-    border-radius: 12px;
-    width: 48px; height: 48px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    transition: transform 0.15s, box-shadow 0.15s;
-    box-shadow: 0 4px 14px rgba(255,107,0,0.35);
-  }
-
-  #send-btn:hover { transform: scale(1.06); box-shadow: 0 6px 20px rgba(255,107,0,0.5); }
-  #send-btn:active { transform: scale(0.95); }
-
-  #send-btn svg { fill: white; }
-
-  /* MODAL */
-  .modal-overlay {
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.7);
-    z-index: 200;
-    display: flex; align-items: center; justify-content: center;
-    padding: 20px;
-  }
-
-  .modal {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 28px;
-    width: 100%; max-width: 420px;
-    animation: fadeUp 0.3s ease;
-  }
-
-  .modal h2 {
-    font-family: 'Baloo 2', cursive;
-    font-weight: 800;
-    font-size: 20px;
-    color: var(--saffron-light);
-    margin-bottom: 6px;
-  }
-
-  .modal p { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
-
-  .form-group { margin-bottom: 14px; }
-
-  .form-group label {
-    display: block;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--muted);
-    margin-bottom: 6px;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
-  }
-
-  .form-group input, .form-group select {
-    width: 100%;
-    background: var(--deep);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 10px 14px;
-    color: var(--text);
-    font-size: 14px;
-    font-family: 'Inter', sans-serif;
-    outline: none;
-    transition: border-color 0.2s;
-    appearance: none;
-  }
-
-  .form-group input:focus, .form-group select:focus { border-color: var(--saffron); }
-
-  .form-row { display: flex; gap: 10px; }
-  .form-row .form-group { flex: 1; }
-
-  .modal-save {
-    width: 100%;
-    background: linear-gradient(135deg, var(--saffron), var(--saffron-light));
-    border: none;
-    border-radius: 10px;
-    padding: 13px;
-    color: white;
-    font-size: 15px;
-    font-weight: 700;
-    font-family: 'Inter', sans-serif;
-    cursor: pointer;
-    margin-top: 6px;
-    transition: opacity 0.2s;
-  }
-
-  .modal-save:hover { opacity: 0.9; }
-
-  /* WELCOME */
-  .welcome-card {
-    background: linear-gradient(135deg, var(--card) 0%, #0f2035 100%);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--saffron);
-    border-radius: 14px;
-    padding: 18px;
-    align-self: center;
-    max-width: 500px;
-    width: 100%;
-    text-align: center;
-  }
-
-  .welcome-card h3 {
-    font-family: 'Baloo 2', cursive;
-    font-weight: 800;
-    font-size: 18px;
-    color: var(--saffron-light);
-    margin-bottom: 6px;
-  }
-
-  .welcome-card p { font-size: 13px; color: var(--muted); line-height: 1.6; }
-
-  .source-tag {
-    display: inline-block;
-    background: rgba(0,201,167,0.12);
-    border: 1px solid rgba(0,201,167,0.3);
-    color: var(--accent);
-    border-radius: 10px;
-    font-size: 10px;
-    padding: 2px 8px;
-    margin-left: 6px;
-    vertical-align: middle;
-  }
-
-  /* PWA Install Banner */
-  #install-banner {
-    display: none;
-    position: fixed;
-    bottom: 80px;
-    left: 16px; right: 16px;
-    background: linear-gradient(135deg, #1a3a5c, #132133);
-    border: 1px solid var(--saffron);
-    border-radius: 16px;
-    padding: 14px 16px;
-    align-items: center;
-    gap: 12px;
-    z-index: 150;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-    animation: fadeUp 0.4s ease;
-  }
-
-  #install-banner .install-icon {
-    font-size: 28px; flex-shrink: 0;
-  }
-
-  #install-banner .install-text { flex: 1; }
-  #install-banner .install-text strong { display: block; font-size: 14px; color: var(--text); }
-  #install-banner .install-text span { font-size: 12px; color: var(--muted); }
-
-  #install-btn {
-    background: var(--saffron);
-    border: none;
-    border-radius: 10px;
-    padding: 8px 16px;
-    color: white;
-    font-weight: 700;
-    font-size: 13px;
-    cursor: pointer;
-    font-family: 'Inter', sans-serif;
-    flex-shrink: 0;
-  }
-
-  #dismiss-install {
-    background: none;
-    border: none;
-    color: var(--muted);
-    font-size: 20px;
-    cursor: pointer;
-    flex-shrink: 0;
-    line-height: 1;
-  }
-
-  /* Safe area for notched phones */
-  body { padding-bottom: env(safe-area-inset-bottom); }
+/* LOADING */
+.loading-overlay{position:fixed;inset:0;background:rgba(13,27,42,0.85);z-index:300;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;}
+.loading-spinner{width:48px;height:48px;border:3px solid var(--border);border-top-color:var(--saffron);border-radius:50%;animation:spin 0.8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{font-size:13px;color:var(--muted);}
 </style>
 </head>
 <body>
@@ -503,346 +173,450 @@
 <div class="modal-overlay" id="profile-modal">
   <div class="modal">
     <h2>🎓 તમારી Profile</h2>
-    <p>SHIDEK ને તમારા માટે સૌથી સચોટ સલાહ આપવા, આ માહિતી જરૂરી છે.</p>
-
-    <div class="form-group">
-      <label>તમારું નામ</label>
-      <input type="text" id="f-name" placeholder="દા.ત. Shivam Patel" />
-    </div>
-
+    <p class="sub">SHIDEK ને સચોટ સલાહ આપવા આ જરૂરી છે</p>
+    <div class="form-group"><label>તમારું નામ</label><input type="text" id="f-name" placeholder="Shivam Patel"/></div>
     <div class="form-row">
-      <div class="form-group">
-        <label>NEET Score</label>
-        <input type="number" id="f-neet" placeholder="દા.ત. 450" />
-      </div>
-      <div class="form-group">
-        <label>GUJCET Score</label>
-        <input type="number" id="f-gujcet" placeholder="દા.ત. 85" />
-      </div>
+      <div class="form-group"><label>NEET Score</label><input type="number" id="f-neet" placeholder="450"/></div>
+      <div class="form-group"><label>NEET Rank</label><input type="number" id="f-rank" placeholder="50000"/></div>
     </div>
-
     <div class="form-row">
-      <div class="form-group">
-        <label>Category</label>
-        <select id="f-cat">
-          <option value="General">General (UR)</option>
-          <option value="OBC">OBC (SEBC)</option>
-          <option value="SC">SC</option>
-          <option value="ST">ST</option>
-          <option value="EWS">EWS</option>
-        </select>
+      <div class="form-group"><label>GUJCET Score</label><input type="number" id="f-gujcet" placeholder="85"/></div>
+      <div class="form-group"><label>12th %</label><input type="number" id="f-12th" placeholder="75"/></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Category</label>
+        <select id="f-cat"><option>General</option><option>OBC</option><option>SC</option><option>ST</option><option>EWS</option></select>
       </div>
-      <div class="form-group">
-        <label>Stream</label>
-        <select id="f-stream">
-          <option value="Medical (MBBS/BDS)">Medical (MBBS/BDS)</option>
-          <option value="Engineering (B.Tech)">Engineering (B.Tech)</option>
-          <option value="Pharmacy">Pharmacy</option>
-          <option value="Nursing">Nursing</option>
-          <option value="Other">Other / Explore</option>
-        </select>
+      <div class="form-group"><label>Stream</label>
+        <select id="f-stream"><option>Medical (MBBS/BDS)</option><option>Engineering</option><option>Pharmacy</option><option>Nursing</option><option>Other</option></select>
       </div>
     </div>
-
-    <button class="modal-save" onclick="saveProfile()">✅ Save & Start SHIDEK</button>
+    <button class="btn-primary" onclick="saveProfile()">✅ Save & Start SHIDEK 2.0</button>
   </div>
+</div>
+
+<!-- LOADING -->
+<div class="loading-overlay" id="loading" style="display:none">
+  <div class="loading-spinner"></div>
+  <div class="loading-text" id="loading-text">SHIDEK શોધી રહ્યું છે...</div>
 </div>
 
 <!-- HEADER -->
 <header>
-  <div class="logo-mark">SHI</div>
-  <div class="header-text">
-    <h1>SHIDEK</h1>
-    <p>Career & College Admission Expert AI</p>
-  </div>
+  <div class="logo">SHI</div>
+  <div class="htext"><h1>SHIDEK 2.0</h1><p>Career & College AI · Gujarat</p></div>
   <div class="lang-toggle">
     <button class="active" id="btn-gu" onclick="setLang('gu')">ગુ</button>
     <button id="btn-en" onclick="setLang('en')">EN</button>
   </div>
 </header>
 
-<!-- PROFILE BANNER -->
-<div id="profile-banner" style="display:none;">
-  <div class="profile-chip"><span>👤</span><strong id="b-name">—</strong></div>
-  <div class="profile-chip"><span>NEET</span><strong id="b-neet">—</strong></div>
-  <div class="profile-chip"><span>GUJCET</span><strong id="b-gujcet">—</strong></div>
-  <div class="profile-chip"><span>Cat</span><strong id="b-cat">—</strong></div>
-  <div class="profile-chip"><span>🎯</span><strong id="b-stream">—</strong></div>
-  <button id="edit-profile-btn" onclick="openModal()">✏️ Edit</button>
+<!-- PROFILE BAR -->
+<div id="profile-bar">
+  <div class="chip"><span>👤</span><strong id="b-name">—</strong></div>
+  <div class="chip"><span>NEET</span><strong id="b-neet">—</strong></div>
+  <div class="chip"><span>Cat</span><strong id="b-cat">—</strong></div>
+  <button id="edit-btn" onclick="document.getElementById('profile-modal').style.display='flex'">✏️</button>
 </div>
 
-<!-- CHAT -->
-<div id="chat-area"></div>
+<!-- NAV -->
+<div id="nav">
+  <button class="nav-tab active" onclick="showPage('chat','this')" id="tab-chat">💬 AI Chat</button>
+  <button class="nav-tab" onclick="showPage('tools','this')" id="tab-tools">🛠️ Tools</button>
+  <button class="nav-tab" onclick="showPage('predictor','this')" id="tab-predictor">📊 Predictor</button>
+  <button class="nav-tab" onclick="showPage('compare','this')" id="tab-compare">⚖️ Compare</button>
+  <button class="nav-tab" onclick="showPage('calendar','this')" id="tab-calendar">📅 Calendar</button>
+  <button class="nav-tab" onclick="showPage('scholarship','this')" id="tab-scholarship">🏆 Scholarship</button>
+</div>
 
-<!-- QUICK PROMPTS -->
-<div id="quick-prompts"></div>
-
-<!-- PWA INSTALL BANNER -->
-<div id="install-banner">
-  <div class="install-icon">📲</div>
-  <div class="install-text">
-    <strong>SHIDEK Install કરો!</strong>
-    <span>Home Screen પર App તરીકે ઉમેરો</span>
+<!-- CHAT PAGE -->
+<div id="page-chat" class="page active" style="padding:0;display:flex;flex-direction:column;">
+  <div id="chat-area"></div>
+  <div id="quick-wrap"></div>
+  <div id="input-area">
+    <button id="mic-btn" onclick="toggleVoice()" title="Voice Input">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1 1.93c-3.94-.49-7-3.85-7-7.93H2c0 4.97 3.57 9.1 8.26 9.85V21h3v-2.15c4.69-.75 8.26-4.88 8.26-9.85h-2c0 4.08-3.06 7.44-7 7.93V15h-1.52z"/></svg>
+    </button>
+    <textarea id="user-input" rows="1" placeholder="તમારો પ્રશ્ન લખો... / Type your question..."></textarea>
+    <button id="send-btn" onclick="sendMessage()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
+    </button>
   </div>
-  <button id="install-btn">Install</button>
-  <button id="dismiss-install">✕</button>
 </div>
 
-<!-- INPUT -->
-<div id="input-area">
-  <textarea id="user-input" rows="1" placeholder="તમારો પ્રશ્ન અહીં લખો... / Ask your question here..."></textarea>
-  <button id="send-btn" onclick="sendMessage()">
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
-  </button>
+<!-- TOOLS PAGE -->
+<div id="page-tools" class="page">
+  <div class="sec-title">🛠️ SHIDEK Tools</div>
+  <div class="sec-sub">તમારા admission journey માટે બધા tools એક જ જગ્યાએ</div>
+  <div class="tool-grid">
+    <div class="tool-card" onclick="showPage('predictor');switchTab('tab-predictor')">
+      <div class="icon">📊</div>
+      <h3>Rank Predictor</h3>
+      <p>Score થી Rank જાણો</p>
+    </div>
+    <div class="tool-card" onclick="askTool('college predictor')">
+      <div class="icon">🏫</div>
+      <h3>College Predictor</h3>
+      <p>Best colleges find કરો</p>
+    </div>
+    <div class="tool-card" onclick="askTool('previous year cutoffs')">
+      <div class="icon">📈</div>
+      <h3>Cutoff History</h3>
+      <p>પાછલા વર્ષના cutoffs</p>
+    </div>
+    <div class="tool-card" onclick="showPage('compare');switchTab('tab-compare')">
+      <div class="icon">⚖️</div>
+      <h3>College Compare</h3>
+      <p>Colleges સરખાવો</p>
+    </div>
+    <div class="tool-card" onclick="askTool('career explorer for my stream')">
+      <div class="icon">🚀</div>
+      <h3>Career Explorer</h3>
+      <p>Career paths જાણો</p>
+    </div>
+    <div class="tool-card" onclick="showPage('scholarship');switchTab('tab-scholarship')">
+      <div class="icon">🏆</div>
+      <h3>Scholarship Finder</h3>
+      <p>Scholarships શોધો</p>
+    </div>
+    <div class="tool-card" onclick="askTool('choice filling optimizer for ACPC')">
+      <div class="icon">✅</div>
+      <h3>Choice Optimizer</h3>
+      <p>ACPC choice filling help</p>
+    </div>
+    <div class="tool-card" onclick="showPage('calendar');switchTab('tab-calendar')">
+      <div class="icon">📅</div>
+      <h3>Admission Calendar</h3>
+      <p>Important dates</p>
+    </div>
+  </div>
+</div>
+
+<!-- PREDICTOR PAGE -->
+<div id="page-predictor" class="page">
+  <div class="sec-title">📊 NEET Rank & College Predictor</div>
+  <div class="sec-sub">તમારો Score નાખો — Rank અને Best Colleges જાણો</div>
+  <div class="info-card">
+    <h4>⚡ Quick Predict</h4>
+    <div class="form-row">
+      <div class="form-group"><label>NEET Score</label><input type="number" id="p-score" placeholder="450" oninput="quickPredict()"/></div>
+      <div class="form-group"><label>Category</label>
+        <select id="p-cat" onchange="quickPredict()">
+          <option>General</option><option>OBC</option><option>SC</option><option>ST</option><option>EWS</option>
+        </select>
+      </div>
+    </div>
+    <div id="predict-result" style="display:none;margin-top:12px;"></div>
+  </div>
+  <button class="btn-primary" onclick="fullPredict()">🔍 AI Full Analysis કરો</button>
+  <div id="full-predict-result" style="margin-top:16px;"></div>
+</div>
+
+<!-- COMPARE PAGE -->
+<div id="page-compare" class="page">
+  <div class="sec-title">⚖️ College Comparison</div>
+  <div class="sec-sub">બે colleges ની સરખામણી કરો</div>
+  <div class="form-group"><label>College 1</label><input type="text" id="c1" placeholder="દા.ત. AMC Ahmedabad"/></div>
+  <div class="form-group"><label>College 2</label><input type="text" id="c2" placeholder="દા.ત. GMC Surat"/></div>
+  <button class="btn-primary" onclick="compareColleges()">⚖️ Compare કરો</button>
+  <div id="compare-result" style="margin-top:16px;"></div>
+</div>
+
+<!-- CALENDAR PAGE -->
+<div id="page-calendar" class="page">
+  <div class="sec-title">📅 Admission Calendar 2025</div>
+  <div class="sec-sub">Gujarat MBBS/BDS Admission ની Important Dates</div>
+  <div id="cal-list"></div>
+  <button class="btn-primary" onclick="askTool('latest ACPC 2025 admission schedule and important dates')">🔄 Latest Dates AI થી જાણો</button>
+</div>
+
+<!-- SCHOLARSHIP PAGE -->
+<div id="page-scholarship" class="page">
+  <div class="sec-title">🏆 Scholarship Finder</div>
+  <div class="sec-sub">Gujarat Medical Students માટે Scholarships</div>
+  <div id="schol-list"></div>
+  <button class="btn-primary" onclick="askTool('scholarships for medical students in Gujarat 2025 based on my category and score')">🔍 AI થી વધુ Scholarships શોધો</button>
 </div>
 
 <script>
-let profile = {};
-let lang = 'gu';
-let chatHistory = [];
+let profile={}, lang='gu', chatHistory=[], recognition=null, isListening=false;
 
-const quickPromptsGu = [
-  "📋 મારા સ્કોર માટે કઈ કોલેજ સારી?",
-  "💰 Government MBBS ની ફી કેટલી?",
-  "🏫 GMERS vs Grant-in-aid?",
-  "📅 ACPC admission process 2025",
-  "🔄 MBBS ન મળે તો alternative?",
-];
-
-const quickPromptsEn = [
-  "📋 Best colleges for my score?",
-  "💰 Government MBBS fee in Gujarat?",
-  "🏫 GMERS vs Grant-in-aid colleges?",
-  "📅 ACPC admission process 2025",
-  "🔄 Alternatives if MBBS not possible?",
-];
-
-function setLang(l) {
-  lang = l;
-  document.getElementById('btn-gu').classList.toggle('active', l === 'gu');
-  document.getElementById('btn-en').classList.toggle('active', l === 'en');
+// ── LANGUAGE ──
+function setLang(l){
+  lang=l;
+  document.getElementById('btn-gu').classList.toggle('active',l==='gu');
+  document.getElementById('btn-en').classList.toggle('active',l==='en');
   renderQuickPrompts();
 }
 
-function renderQuickPrompts() {
-  const container = document.getElementById('quick-prompts');
-  const prompts = lang === 'gu' ? quickPromptsGu : quickPromptsEn;
-  container.innerHTML = prompts.map(p =>
-    `<button class="qp" onclick="usePrompt(this)">${p}</button>`
-  ).join('');
+// ── NAV ──
+function showPage(id, tabEl){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+id)?.classList.add('active');
+}
+function switchTab(id){ document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active')); document.getElementById(id)?.classList.add('active'); }
+
+// ── PROFILE ──
+function saveProfile(){
+  profile={
+    name:document.getElementById('f-name').value.trim()||'Student',
+    neet:document.getElementById('f-neet').value||'—',
+    rank:document.getElementById('f-rank').value||'—',
+    gujcet:document.getElementById('f-gujcet').value||'—',
+    twelfth:document.getElementById('f-12th').value||'—',
+    cat:document.getElementById('f-cat').value,
+    stream:document.getElementById('f-stream').value
+  };
+  document.getElementById('b-name').textContent=profile.name;
+  document.getElementById('b-neet').textContent=profile.neet;
+  document.getElementById('b-cat').textContent=profile.cat;
+  document.getElementById('profile-bar').style.display='flex';
+  document.getElementById('profile-modal').style.display='none';
+  // Prefill predictor
+  if(profile.neet!=='—') document.getElementById('p-score').value=profile.neet;
+  document.getElementById('p-cat').value=profile.cat;
+  quickPredict();
+  initChat();
+  loadCalendar();
+  loadScholarships();
 }
 
-function usePrompt(btn) {
-  document.getElementById('user-input').value = btn.textContent;
+// ── CHAT ──
+function initChat(){
+  const chat=document.getElementById('chat-area');
+  chat.innerHTML='';
+  chatHistory=[];
+  const g=lang==='gu'
+    ?`નમસ્તે **${profile.name}**! 🙏 હું **SHIDEK 2.0** છું!\n\nProfile Set:\n- NEET: **${profile.neet}** | Rank: **${profile.rank}**\n- Category: **${profile.cat}** | Stream: **${profile.stream}**\n\nઉપર Tools, Predictor, Calendar, Scholarship બધું છે!\nહવે કોઈ પણ પ્રશ્ન પૂછો 🎯`
+    :`Hello **${profile.name}**! 👋 I'm **SHIDEK 2.0**!\n\nProfile: NEET **${profile.neet}** | Cat: **${profile.cat}** | **${profile.stream}**\n\nExplore Tools, Predictor, Calendar & Scholarships above!\nAsk me anything 🎯`;
+  addAI(g);
+  renderQuickPrompts();
+}
+
+const qpGu=['📋 મારા Score માટે Best College?','💰 MBBS Government Fee?','🏫 GMERS vs Grant-in-aid?','📅 ACPC 2025 Process?','🔄 MBBS ન મળે Alternative?','✅ Choice Filling Tips?'];
+const qpEn=['📋 Best colleges for my score?','💰 Government MBBS fee Gujarat?','🏫 GMERS vs Grant-in-aid?','📅 ACPC 2025 process?','🔄 Alternatives if not MBBS?','✅ Choice filling tips?'];
+function renderQuickPrompts(){
+  const w=document.getElementById('quick-wrap');
+  const p=lang==='gu'?qpGu:qpEn;
+  w.innerHTML=p.map(t=>`<button class="qp" onclick="usePrompt(this)">${t}</button>`).join('');
+}
+function usePrompt(b){document.getElementById('user-input').value=b.textContent;sendMessage();}
+
+function addAI(text){
+  const c=document.getElementById('chat-area');
+  const d=document.createElement('div');
+  d.className='msg ai';
+  d.innerHTML=`<div class="ai-label">SHIDEK</div>${fmt(text)}`;
+  c.appendChild(d);
+  c.scrollTop=c.scrollHeight;
+}
+function addUser(text){
+  const c=document.getElementById('chat-area');
+  const d=document.createElement('div');
+  d.className='msg user';
+  d.textContent=text;
+  c.appendChild(d);
+  c.scrollTop=c.scrollHeight;
+}
+function showThink(){
+  const c=document.getElementById('chat-area');
+  const d=document.createElement('div');
+  d.className='msg ai thinking';d.id='think';
+  d.innerHTML=`<div class="ai-label">SHIDEK</div><span></span><span></span><span></span>`;
+  c.appendChild(d);c.scrollTop=c.scrollHeight;
+}
+function hideThink(){const t=document.getElementById('think');if(t)t.remove();}
+function fmt(t){return t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>').replace(/\n/g,'<br>');}
+
+const sysPrompt=()=>`You are SHIDEK 2.0 — Career & College Admission Expert AI for Gujarat, India.
+
+STUDENT: Name=${profile.name}, NEET=${profile.neet}, Rank=${profile.rank}, GUJCET=${profile.gujcet}, 12th%=${profile.twelfth}, Category=${profile.cat}, Stream=${profile.stream}
+
+TASKS:
+1. College recommendations based on score/rank/category
+2. Fee, seats, cutoff, admission process info
+3. ACPC guidance, choice filling strategy
+4. Career alternatives if MBBS not possible
+5. Scholarship info for Gujarat medical students
+6. Use web search for latest data
+
+LANGUAGE: "${lang}" - if "gu" reply in Gujarati (key terms in English), if "en" reply in English. Match user's message language.
+
+FORMAT: Use **bold**, tables for college lists (College|Type|Fee|Cutoff|Location), be concise and helpful. Always personalize using student profile.`;
+
+async function sendMessage(){
+  const inp=document.getElementById('user-input');
+  const text=inp.value.trim();
+  if(!text)return;
+  inp.value='';inp.style.height='auto';
+  if(!profile.name){document.getElementById('profile-modal').style.display='flex';return;}
+  addUser(text);showThink();
+  chatHistory.push({role:'user',content:text});
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-6',max_tokens:1000,
+        system:sysPrompt(),
+        tools:[{type:'web_search_20250305',name:'web_search'}],
+        messages:chatHistory.slice(-12)
+      })
+    });
+    const data=await res.json();
+    const reply=data.content.filter(b=>b.type==='text').map(b=>b.text).join('\n');
+    chatHistory.push({role:'assistant',content:reply||'...'});
+    hideThink();addAI(reply||(lang==='gu'?'માફ કરો, ફરી પ્રયાસ કરો.':'Sorry, please try again.'));
+  }catch(e){hideThink();addAI(lang==='gu'?'⚠️ Error આવ્યો. ફરી try કરો.':'⚠️ Error occurred. Please try again.');}
+}
+
+// ── TOOL SHORTCUT ──
+function askTool(q){
+  showPage('chat');switchTab('tab-chat');
+  document.getElementById('user-input').value=q;
   sendMessage();
 }
 
-function openModal() {
-  document.getElementById('profile-modal').style.display = 'flex';
-}
-
-function saveProfile() {
-  const name = document.getElementById('f-name').value.trim() || 'Student';
-  const neet = document.getElementById('f-neet').value || '—';
-  const gujcet = document.getElementById('f-gujcet').value || '—';
-  const cat = document.getElementById('f-cat').value;
-  const stream = document.getElementById('f-stream').value;
-
-  profile = { name, neet, gujcet, cat, stream };
-
-  document.getElementById('b-name').textContent = name;
-  document.getElementById('b-neet').textContent = neet;
-  document.getElementById('b-gujcet').textContent = gujcet;
-  document.getElementById('b-cat').textContent = cat;
-  document.getElementById('b-stream').textContent = stream;
-
-  document.getElementById('profile-banner').style.display = 'flex';
-  document.getElementById('profile-modal').style.display = 'none';
-
-  const chat = document.getElementById('chat-area');
-  chat.innerHTML = '';
-  chatHistory = [];
-
-  const greeting = lang === 'gu'
-    ? `નમસ્તે **${name}**! 🙏 હું **SHIDEK** છું — તમારો Personal Career & Admission Expert AI.\n\nતમારી Profile સેટ થઈ ગઈ:\n- NEET Score: **${neet}**\n- GUJCET: **${gujcet}**\n- Category: **${cat}**\n- Stream: **${stream}**\n\nહવે તમારો કોઈ પણ પ્રશ્ન પૂછો — હું Real-Time ડેટા વડે સૌથી સચોટ જવાબ આપીશ! 🎯`
-    : `Hello **${name}**! 👋 I'm **SHIDEK** — your Personal Career & Admission Expert AI.\n\nYour profile is set:\n- NEET Score: **${neet}**\n- GUJCET: **${gujcet}**\n- Category: **${cat}**\n- Stream: **${stream}**\n\nAsk me anything about college admissions in Gujarat — I'll give you the most accurate, up-to-date answers! 🎯`;
-
-  addAIMessage(greeting);
-  renderQuickPrompts();
-}
-
-function addAIMessage(text) {
-  const chat = document.getElementById('chat-area');
-  const div = document.createElement('div');
-  div.className = 'msg ai';
-  div.innerHTML = `<div class="ai-label">SHIDEK</div>${formatText(text)}`;
-  chat.appendChild(div);
-  chat.scrollTop = chat.scrollHeight;
-}
-
-function addUserMessage(text) {
-  const chat = document.getElementById('chat-area');
-  const div = document.createElement('div');
-  div.className = 'msg user';
-  div.textContent = text;
-  chat.appendChild(div);
-  chat.scrollTop = chat.scrollHeight;
-}
-
-function showThinking() {
-  const chat = document.getElementById('chat-area');
-  const div = document.createElement('div');
-  div.className = 'msg ai thinking';
-  div.id = 'thinking';
-  div.innerHTML = `<div class="ai-label">SHIDEK</div><span></span><span></span><span></span>`;
-  chat.appendChild(div);
-  chat.scrollTop = chat.scrollHeight;
-}
-
-function removeThinking() {
-  const t = document.getElementById('thinking');
-  if (t) t.remove();
-}
-
-function formatText(text) {
-  return text
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\*(.*?)\*/g, '<em>$1</em>')
-    .replace(/\n/g, '<br>');
-}
-
-async function sendMessage() {
-  const input = document.getElementById('user-input');
-  const text = input.value.trim();
-  if (!text) return;
-
-  input.value = '';
-  input.style.height = 'auto';
-  addUserMessage(text);
-  showThinking();
-
-  chatHistory.push({ role: 'user', content: text });
-
-  const systemPrompt = `You are SHIDEK — "Career & College Admission Expert AI" — a highly knowledgeable AI agent built specifically to help students in Gujarat, India, especially those appearing for NEET and GUJCET, with college admissions, career guidance, and educational decisions.
-
-STUDENT PROFILE:
-- Name: ${profile.name || 'Student'}
-- NEET Score: ${profile.neet || 'Not specified'}
-- GUJCET Score: ${profile.gujcet || 'Not specified'}
-- Category: ${profile.cat || 'General'}
-- Preferred Stream: ${profile.stream || 'Medical'}
-
-YOUR CORE RESPONSIBILITIES:
-1. Based on NEET/GUJCET score and category, provide a list of best Government, GMERS, and Grant-in-aid colleges in Gujarat with approximate cut-offs.
-2. Provide accurate information about annual fees, seat count, and admission process for each college.
-3. If a student is exploring alternatives, guide them with career paths, alternative colleges (Pharmacy, Nursing, Paramedical, Engineering, etc.).
-4. Use web search to get current ACPC data, admission schedules, and cut-off trends.
-5. When showing college lists, use tables with: College Name | Type | Approximate Fee | Approx Cut-off | Location.
-6. Always be helpful, accurate, and encouraging.
-
-LANGUAGE RULE: The user has selected language = "${lang}". If "gu", reply primarily in Gujarati (with key terms in English). If "en", reply in English. Always match the user's message language if they switch.
-
-FORMATTING:
-- Use **bold** for important info
-- Use tables for college lists
-- Use clear headings
-- Be concise but complete
-- Add a 🔍 "Sources checked: ACPC, NMC, college websites" note at the end when relevant
-
-Always personalize your response using the student's NEET/GUJCET score and category when answering admission-related questions.`;
-
-  try {
-    const messages = [
-      ...chatHistory.slice(-10)
-    ];
-
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
-        max_tokens: 1000,
-        system: systemPrompt,
-        tools: [{ type: 'web_search_20250305', name: 'web_search' }],
-        messages
-      })
-    });
-
-    const data = await res.json();
-    const reply = data.content
-      .filter(b => b.type === 'text')
-      .map(b => b.text)
-      .join('\n');
-
-    chatHistory.push({ role: 'assistant', content: reply || '...' });
-    removeThinking();
-    addAIMessage(reply || (lang === 'gu' ? 'માફ કરો, જવાબ મળ્યો નથી.' : 'Sorry, no response received.'));
-  } catch (e) {
-    removeThinking();
-    addAIMessage(lang === 'gu'
-      ? '⚠️ કોઈ ટેકનિકલ સમસ્યા આવી. કૃપા કરીને ફરીથી પ્રયાસ કરો.'
-      : '⚠️ A technical error occurred. Please try again.');
+// ── VOICE ──
+function toggleVoice(){
+  if(!('webkitSpeechRecognition' in window||'SpeechRecognition' in window)){
+    alert(lang==='gu'?'Voice chat તમારા browser માં available નથી. Chrome વાપરો!':'Voice not supported. Please use Chrome!');return;
   }
-}
-
-// Auto-resize textarea
-document.getElementById('user-input').addEventListener('input', function () {
-  this.style.height = 'auto';
-  this.style.height = Math.min(this.scrollHeight, 130) + 'px';
-});
-
-document.getElementById('user-input').addEventListener('keydown', function (e) {
-  if (e.key === 'Enter' && !e.shiftKey) {
-    e.preventDefault();
+  const btn=document.getElementById('mic-btn');
+  if(isListening){recognition?.stop();isListening=false;btn.classList.remove('listening');return;}
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  recognition=new SR();
+  recognition.lang=lang==='gu'?'gu-IN':'en-IN';
+  recognition.continuous=false;recognition.interimResults=false;
+  recognition.onstart=()=>{isListening=true;btn.classList.add('listening');};
+  recognition.onresult=e=>{
+    const t=e.results[0][0].transcript;
+    document.getElementById('user-input').value=t;
+    isListening=false;btn.classList.remove('listening');
     sendMessage();
-  }
-});
-
-// Register Service Worker (PWA)
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js')
-      .then(() => console.log('SHIDEK SW registered ✅'))
-      .catch(e => console.log('SW error:', e));
-  });
+  };
+  recognition.onerror=()=>{isListening=false;btn.classList.remove('listening');};
+  recognition.onend=()=>{isListening=false;btn.classList.remove('listening');};
+  recognition.start();
 }
 
-// PWA Install prompt
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', e => {
-  e.preventDefault();
-  deferredPrompt = e;
-  document.getElementById('install-banner').style.display = 'flex';
-});
-
-document.getElementById('install-btn')?.addEventListener('click', async () => {
-  if (deferredPrompt) {
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    if (outcome === 'accepted') {
-      document.getElementById('install-banner').style.display = 'none';
-    }
-    deferredPrompt = null;
+// ── PREDICTOR ──
+function quickPredict(){
+  const score=parseInt(document.getElementById('p-score').value)||0;
+  const cat=document.getElementById('p-cat').value;
+  const res=document.getElementById('predict-result');
+  if(!score){res.style.display='none';return;}
+  let rank='', chance='', color='';
+  if(cat==='General'){
+    if(score>=650){rank='1,000–5,000';chance=95;color='var(--accent)';}
+    else if(score>=600){rank='5,000–15,000';chance=80;color='var(--accent)';}
+    else if(score>=550){rank='15,000–35,000';chance=65;color='var(--gold)';}
+    else if(score>=500){rank='35,000–60,000';chance=45;color='var(--gold)';}
+    else if(score>=450){rank='60,000–1,00,000';chance=25;color='var(--saffron)';}
+    else{rank='1,00,000+';chance=10;color='#ef4444';}
+  } else {
+    if(score>=550){rank='1,000–10,000';chance=90;color='var(--accent)';}
+    else if(score>=500){rank='10,000–30,000';chance=75;color='var(--accent)';}
+    else if(score>=450){rank='30,000–60,000';chance=60;color='var(--gold)';}
+    else if(score>=400){rank='60,000–1,00,000';chance=40;color='var(--gold)';}
+    else{rank='1,00,000+';chance=15;color='var(--saffron)';}
   }
+  res.style.display='block';
+  res.innerHTML=`
+    <div class="result-card">
+      <div class="rank-badge">Predicted Rank: ~${rank}</div>
+      <h4>Government MBBS Chance (Gujarat)</h4>
+      <div class="prob-bar"><div class="prob-fill" style="width:${chance}%;background:${color}"></div></div>
+      <div style="font-size:12px;color:${color};font-weight:700;margin-top:4px;">${chance}% Probability</div>
+      <div class="meta">
+        <div class="meta-tag">Score: <strong>${score}</strong></div>
+        <div class="meta-tag">Category: <strong>${cat}</strong></div>
+      </div>
+    </div>`;
+}
+
+function fullPredict(){
+  const score=document.getElementById('p-score').value;
+  const cat=document.getElementById('p-cat').value;
+  askTool(`NEET score ${score} category ${cat} - best government colleges Gujarat with cutoffs and fees table`);
+  showPage('chat');switchTab('tab-chat');
+}
+
+// ── COMPARE ──
+async function compareColleges(){
+  const c1=document.getElementById('c1').value.trim();
+  const c2=document.getElementById('c2').value.trim();
+  if(!c1||!c2){alert('બંને colleges નું નામ લખો');return;}
+  showPage('chat');switchTab('tab-chat');
+  askTool(`Compare ${c1} vs ${c2} medical college Gujarat - fees, seats, cutoff, facilities, ranking table`);
+}
+
+// ── CALENDAR ──
+function loadCalendar(){
+  const events=[
+    {day:'15',month:'May',title:'NEET UG 2025 Exam',badge:'important',desc:'National Medical Entrance Test'},
+    {day:'14',month:'Jun',title:'NEET Result',badge:'important',desc:'Result declared on NMC website'},
+    {day:'01',month:'Jul',title:'ACPC Registration Start',badge:'normal',desc:'Gujarat MBBS/BDS registration begins'},
+    {day:'15',month:'Jul',title:'Document Verification',badge:'normal',desc:'Original documents verification'},
+    {day:'25',month:'Jul',title:'Merit List Publication',badge:'important',desc:'State merit list declared'},
+    {day:'01',month:'Aug',title:'Choice Filling Start',badge:'normal',desc:'ACPC online choice filling'},
+    {day:'10',month:'Aug',title:'Seat Allotment Round 1',badge:'important',desc:'First allotment result'},
+    {day:'25',month:'Aug',title:'Seat Allotment Round 2',badge:'important',desc:'Second allotment result'},
+  ];
+  document.getElementById('cal-list').innerHTML=events.map(e=>`
+    <div class="cal-item">
+      <div class="cal-date"><div class="day">${e.day}</div><div class="month">${e.month}</div></div>
+      <div class="cal-info">
+        <h4>${e.title}</h4>
+        <p>${e.desc}</p>
+        <span class="cal-badge ${e.badge}">${e.badge==='important'?'⚠️ Important':'✅ Regular'}</span>
+      </div>
+    </div>`).join('');
+}
+
+// ── SCHOLARSHIPS ──
+function loadScholarships(){
+  const list=[
+    {name:'Gujarat Government Merit Scholarship',desc:'NEET top rankers (State merit 1-1000)',amount:'₹50,000/year',cat:'All'},
+    {name:'Post Matric Scholarship (OBC/SC/ST)',desc:'Category based scholarship for medical students',amount:'Full Tuition Fee',cat:'OBC/SC/ST'},
+    {name:'EWS Medical Scholarship',desc:'Economic Weaker Section students',amount:'₹25,000/year',cat:'EWS'},
+    {name:'National Scholarship Portal (NSP)',desc:'Central government scholarship via NSP portal',amount:'₹20,000/year',cat:'All'},
+    {name:'ACPC Fee Reimbursement',desc:'SC/ST students Government college fee waiver',amount:'100% Fee Waiver',cat:'SC/ST'},
+  ].filter(s=>s.cat==='All'||!profile.cat||s.cat.includes(profile.cat));
+  document.getElementById('schol-list').innerHTML=list.map(s=>`
+    <div class="schol-card">
+      <h4>🏆 ${s.name}</h4>
+      <p>${s.desc}</p>
+      <div class="amount">${s.amount}</div>
+    </div>`).join('');
+}
+
+// ── TEXTAREA AUTO-RESIZE ──
+document.getElementById('user-input').addEventListener('input',function(){
+  this.style.height='auto';this.style.height=Math.min(this.scrollHeight,120)+'px';
+});
+document.getElementById('user-input').addEventListener('keydown',function(e){
+  if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();}
 });
 
-document.getElementById('dismiss-install')?.addEventListener('click', () => {
-  document.getElementById('install-banner').style.display = 'none';
-});
+// ── SERVICE WORKER ──
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('sw.js').catch(()=>{});
+}
 
-// Init
-renderQuickPrompts();
-
-// Show welcome card
-(function() {
-  const chat = document.getElementById('chat-area');
-  const div = document.createElement('div');
-  div.className = 'welcome-card';
-  div.innerHTML = `
-    <h3>🎓 SHIDEK માં આપનું સ્વાગત છે!</h3>
-    <p style="margin-top:8px">ઉપર તમારી Profile ભરો — NEET Score, Category અને Stream — પછી SHIDEK તમને<br>Gujarat ની <strong style="color:#FF8C38">Best Colleges</strong> ની સૌથી સચોટ, Real-Time માહિતી આપશે! 🚀</p>
-  `;
-  chat.appendChild(div);
+// ── INIT ──
+(function(){
+  const c=document.getElementById('chat-area');
+  const d=document.createElement('div');
+  d.className='welcome';
+  d.innerHTML=`<h3>🎓 SHIDEK 2.0 માં સ્વાગત!</h3><p>Profile ભરો → Rank Predict કરો → Best College શોધો → Scholarship જુઓ → Admission Calendar check કરો! 🚀<br><br><strong style="color:var(--saffron)">Voice Chat પણ Available છે! 🎤</strong></p>`;
+  c.appendChild(d);
+  document.getElementById('profile-modal').style.display='flex';
+  renderQuickPrompts();
+  loadCalendar();
+  loadScholarships();
 })();
 </script>
 </body>
