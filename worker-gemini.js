@@ -79,3 +79,7 @@ export default {
     }
   },
 };
+AQ.Ab8RN6I-JbOJA5AdzIcduPIBhuMWgxI7W2ov4NVbg-wB7QdOXA
+Gemini API Key
+projects/274469633114
+274469633114
