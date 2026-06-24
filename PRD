@@ -1,0 +1,98 @@
+# Product Requirements Document (PRD)
+## Feature: SHIDEK Self-Improving AI Assistant
+
+**Product:** SHIDEK 2.0 — Career & College AI (Gujarat NEET/GUJCET counseling)
+**Doc owner:** [Shivam Soni]
+**Status:** Draft v1
+
+---
+
+### 1. Background
+
+SHIDEK currently helps Gujarat NEET/GUJCET students with rank prediction, college search,
+comparisons, scholarships, and an AI chat tool. Users have reported frequent wrong/irrelevant
+answers from the AI chat. This PRD defines a feature to make SHIDEK's answers improve over
+time by learning from real conversations, while keeping student data private.
+
+### 2. Problem Statement
+
+- The AI chat gives inconsistent or incorrect answers (cutoffs, dates, rules change yearly and
+  the model has no Gujarat-specific memory).
+- There is no mechanism today to capture "this answer was wrong" feedback and act on it.
+- Any improvement that calls multiple AI providers must not leak a student's name, NEET roll
+  number, score, phone, or any personal identifier to those providers or to other students.
+
+### 3. Goals
+
+1. SHIDEK's chat answers measurably improve over time using real usage data.
+2. The system can consult one or more external AI providers (Gemini, ChatGPT, Perplexity,
+   Claude) to cross-check or enrich an answer, without exposing API keys or personal data.
+3. Every student-identifying field is stripped or anonymized before any data leaves the
+   student's own session.
+4. Admin (Shivam) can review what the assistant is learning and correct bad entries.
+
+### 4. Non-Goals (explicitly out of scope)
+
+- This is **not** retraining or fine-tuning an AI model. No SHIDEK feature will alter the
+  weights of Gemini/ChatGPT/Claude/Perplexity — that is not possible from a client app, and
+  not necessary to achieve the goal.
+- This is not a guarantee of 100% accurate answers — admission rules and cutoffs change yearly
+  and always need a verified-source disclaimer.
+
+### 5. User Stories
+
+| As a... | I want to... | So that... |
+|---|---|---|
+| Student | Ask SHIDEK a question and get a confident, correct answer | I can trust it for admission decisions |
+| Student | Flag an answer as wrong/unhelpful | Future users don't get the same bad answer |
+| Admin | See which questions SHIDEK answers badly | I can fix the knowledge base directly |
+| Admin | Approve/reject auto-learned facts before they go live | Wrong info never gets "learned" permanently |
+| Any user | Trust that my name/score/phone is never sent to a 3rd-party AI | My privacy is protected |
+
+### 6. Functional Requirements
+
+**FR1 — Feedback capture**
+Every AI chat answer has 👍/👎 buttons. 👎 prompts an optional 1-line reason.
+
+**FR2 — Anonymization before any external call**
+Before a question is sent to any AI provider, the app strips: name, phone, email, NEET roll
+number, exact score (rounded to nearest 10), category, and any free-text the user typed that
+matches PII patterns (regex-based redaction client-side, enforced again server-side).
+
+**FR3 — Multi-AI consult (server-side only)**
+A backend function (not the browser) may call one or more of Gemini / OpenAI / Perplexity /
+Claude APIs server-side, using server-held secret keys, to answer or verify a question. The
+browser never sees any API key.
+
+**FR4 — Growing knowledge base**
+Anonymized Q&A pairs with positive feedback are stored in a knowledge base (KB). Future
+questions first search the KB (cheap, fast, no external call needed) before calling any AI
+provider — this is the actual "learning" mechanism: a constantly improving FAQ/answer index,
+not model retraining.
+
+**FR5 — Admin review queue**
+New KB entries sit in "pending" status until Shivam approves them in a simple admin view.
+Approved entries become searchable; rejected entries are deleted.
+
+**FR6 — Source-of-truth override**
+Official cutoffs/dates/rules (ACPC, GUJCET, NEET) entered manually by admin always outrank
+AI-generated answers on the same topic.
+
+**FR7 — Transparency**
+Chat UI shows a small label "🔎 Verified" (KB-sourced) vs "🤖 AI-suggested" (model-generated,
+unverified) so students know how reliable an answer is.
+
+### 7. Success Metrics
+
+- ↓ 👎 rate on AI chat answers, month over month.
+- ↑ % of answers served from KB (cheaper, faster, more reliable) vs raw AI call.
+- 0 incidents of personal data sent to a 3rd-party AI provider (tracked via server logs).
+- Admin review queue cleared within 48h on average.
+
+### 8. Risks / Open Questions
+
+- Need API keys/budget for any external AI provider used server-side — cost must be capped.
+- Need to decide where the backend lives (current app is 100% static GitHub Pages with no
+  server) — see Technical Architecture doc.
+- Legal/ToS: each AI provider has its own terms for automated/API use; review before wiring up
+  any specific provider.
